@@ -73,20 +73,20 @@
 }
 
 .home-grid {
-  margin:50px auto;
   width: min(900px, 90vw);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(16px, 4vw, 36px);
+  margin-bottom: 10vh;
 }
 
 .home-card {
   display: grid;
   place-items: center;
-  max-height: 40vh !important;
-  min-height: 40vh !important;
+  max-height: 30vh !important;
+  min-height: 30vh !important;
   gap: 12px;
-  padding: clamp(18px, 4vw, 32px);
+  padding: 1vh;
   border-radius: 28px;
   border: 4px solid rgba(0,0,0,0.08);
   background: #ffffffcc;
@@ -103,8 +103,7 @@
 .home-card.memory { border-color: #f59e0b; }
 
 .icon {
-  font-size: clamp(64px, 12vw, 140px);
-  line-height: 1;
+  font-size: 10vh;
 }
 
 .label {
