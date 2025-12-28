@@ -1,0 +1,122 @@
+/* Full-screen overlay shown when in portrait on narrow screens */
+.orientation-block {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b0b0bcc;
+  backdrop-filter: blur(2px);
+  z-index: 9999;
+}
+
+.orientation-block__card {
+  width: min(600px, 90vw);
+  max-width: 600px;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  padding: 24px;
+  text-align: center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.orientation-block__emoji {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.orientation-block__title {
+  font-size: 22px;
+  margin: 0 0 8px 0;
+}
+
+.orientation-block__text {
+  font-size: 16px;
+  margin: 0 0 16px 0;
+}
+
+.orientation-block__actions {
+  margin-top: 8px;
+}
+
+.orientation-block__button {
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.orientation-block__button:hover {
+  background: #333333;
+}
+
+.orientation-block__hint {
+  font-size: 12px;
+  color: #555555;
+  margin-top: 10px;
+}
+
+/* If already landscape or wide screens, do nothing */
+@media (orientation: landscape) {
+  .orientation-block { display: none; }
+}
+
+/* Simplify overlay to a graphic with a subtle animation */
+.orientation-block__emoji,
+.orientation-block__title,
+.orientation-block__text,
+.orientation-block__actions,
+.orientation-block__button,
+.orientation-block__hint { display: none !important; }
+
+.orientation-block__card {
+  position: relative;
+  width: min(340px, 70vw);
+  height: min(240px, 50vh);
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.orientation-block__card::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-10deg);
+  width: 120px;
+  height: 200px;
+  border: 6px solid #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: tilt 1.6s ease-in-out infinite alternate;
+}
+
+.orientation-block__card::after {
+  content: "";
+  position: absolute;
+  left: calc(50% + 90px);
+  top: 50%;
+  width: 56px;
+  height: 56px;
+  border-right: 6px solid #ffffff;
+  border-top: 6px solid #ffffff;
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes tilt {
+  0% { transform: translate(-50%, -50%) rotate(-12deg); }
+  100% { transform: translate(-50%, -50%) rotate(12deg); }
+}
+
+@keyframes sweep {
+  0% { transform: translate(-50%, -50%) rotate(45deg); opacity: 0.6; }
+  50% { transform: translate(-60%, -40%) rotate(45deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) rotate(45deg); opacity: 0.6; }
+}

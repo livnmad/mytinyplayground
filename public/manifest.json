@@ -1,0 +1,10 @@
+{
+  "name": "My Tiny Playground",
+  "short_name": "Playground",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "landscape",
+  "icons": []
+}

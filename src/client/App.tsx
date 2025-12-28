@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Main from './views/Main';
 import Home from './views/Home';
 import Memory from './views/Memory';
+import LandscapeGate from './views/LandscapeGate';
 import './views/css/app.css';
 
 type Route = 'home' | 'paint' | 'memory';
@@ -22,9 +23,8 @@ const App: React.FC = () => {
     return () => window.removeEventListener('hashchange', parse);
   }, []);
 
-  if (route === 'paint') return <Main />;
-  if (route === 'memory') return <Memory />;
-  return <Home />;
+  const content = route === 'paint' ? <Main /> : route === 'memory' ? <Memory /> : <Home />;
+  return <LandscapeGate>{content}</LandscapeGate>;
 };
 
 export default App;
