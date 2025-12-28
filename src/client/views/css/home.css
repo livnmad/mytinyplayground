@@ -2,7 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@600&display=swap');
 .home {
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
+  max-height: 100dvh;
   overflow: hidden;
   display: grid;
   grid-template-rows: auto 1fr;
@@ -83,8 +84,8 @@
 .home-card {
   display: grid;
   place-items: center;
-  max-height: 30vh !important;
-  min-height: 30vh !important;
+  max-height: 30svh !important;
+  min-height: 30svh !important;
   gap: 12px;
   padding: 1vh;
   border-radius: 28px;

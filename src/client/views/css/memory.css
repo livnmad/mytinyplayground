@@ -1,7 +1,7 @@
 /* Page-wide background for the Memory route */
 html, body {
-  height: 100%;
-  min-height: 100vh;
+  height: 100svh;
+  max-height: 100dvh;
   margin: 0;
   background:
     radial-gradient(1000px at -10% 0%, #e0f2fe 0%, transparent 70%),
@@ -14,8 +14,8 @@ html, body {
 .memory {
   width: 100%;
   max-width: 90vw; /* no more than 90% of viewport width */
-  height: 100vh;   /* full viewport height */
-  min-height: 100vh;
+  height: 100svh;   /* full small viewport height */
+  max-height: 100dvh;
   display: grid;
   grid-template-rows: auto 1fr; /* nav + board; score moved into nav */
   gap: 12px;
