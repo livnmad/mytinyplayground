@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -9,6 +10,9 @@ module.exports = {
     publicPath: '/',
     // Preserve server build output from tsc
     clean: false,
+  },
+  stats: {
+    children: true,
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -27,9 +31,29 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html'),
-    }),
+    new HtmlWebpackPlugin(
+      (() => {
+        const templatePath = path.resolve(__dirname, 'public/index.html');
+        if (fs.existsSync(templatePath)) {
+          return { template: templatePath };
+        }
+        return {
+          templateContent: ({ htmlWebpackPlugin }) => `<!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>My Tiny Playground</title>
+              ${htmlWebpackPlugin.tags.headTags}
+            </head>
+            <body>
+              <div id="root"></div>
+              ${htmlWebpackPlugin.tags.bodyTags}
+            </body>
+          </html>`,
+        };
+      })()
+    ),
   ],
   devServer: {
     static: {
