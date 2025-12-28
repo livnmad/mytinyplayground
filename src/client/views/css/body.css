@@ -1,0 +1,200 @@
+.body {
+    width: 100%;
+    height: calc(80vh - 20px);
+    align-items: flex-start;
+    margin: 0 auto;
+}
+
+.image-area {
+    float:left;
+    width: calc(100vw - 35vw);
+    height: calc(100vh - 15vh);
+    border: 1px solid black;
+    position: relative;
+    z-index: 0;
+}
+
+/* Painting stage fills the image-area content box */
+.paint-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.paint-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill; /* maintain aspect ratio while filling available space */
+    user-select: none;
+    pointer-events: none; /* allow canvas to receive pointer */
+}
+
+.paint-canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: none;
+}
+
+.cursor-dot {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.paint-placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #6b7280; /* slate-500 */
+    font-weight: 600;
+}
+
+.pallette-area {
+    float:right;
+    width: 18vw;
+    height: calc(100% - 25px);
+    padding-top:0;
+    padding-bottom: 0;
+    margin-top: -10vh;
+    position: relative;
+    z-index: 5;
+}
+
+/* Compact transparency slider row */
+.alpha-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    margin: 4px 0 8px 0;
+}
+
+.alpha-range {
+    width: 100%;
+    height: 30px; /* extra short to avoid vertical scroll */
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 6;
+}
+
+/* Removed pseudo-element overlay to ensure slider remains interactive */
+
+/* WebKit track/thumb */
+.alpha-range::-webkit-slider-runnable-track {
+    height: 30px;
+    border-radius: 9px;
+    background:
+      linear-gradient(90deg, rgba(52,211,153,0.8), rgba(52,211,153,0.2)),
+      repeating-linear-gradient(45deg, #f3f4f6 0 8px, #e5e7eb 8px 16px);
+}
+
+.alpha-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff 0%, #fde68a 60%, #f59e0b 100%);
+    border: 2px solid #f59e0b;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.12), 0 8px 12px rgba(0,0,0,0.12);
+    margin-top: -2px; /* center on 14px track */
+    cursor: pointer;
+}
+
+/* Firefox track/thumb */
+.alpha-range::-moz-range-track {
+    height: 25px;
+    border-radius: 9px;
+    background:
+      linear-gradient(90deg, rgba(52,211,153,0.8), rgba(52,211,153,0.2)),
+      repeating-linear-gradient(45deg, #f3f4f6 0 8px, #e5e7eb 8px 16px);
+}
+
+.alpha-range::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff 0%, #fde68a 60%, #f59e0b 100%);
+    border: 2px solid #f59e0b;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.12), 0 8px 12px rgba(0,0,0,0.12);
+    cursor: pointer;
+}
+
+/* Cute confirmation modal */
+.confirm-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: grid;
+    place-items: center;
+    z-index: 10;
+}
+
+.confirm-card {
+    background: #fff7ed; /* warm peachy */
+    border: 3px solid #fdba74; /* orange-300 */
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    padding: 28px 32px;
+    width: min(560px, 90vw);
+    text-align: center;
+    animation: pop-in 180ms ease-out;
+}
+
+.confirm-title {
+    font-size: clamp(22px, 3.2vw, 34px);
+    font-weight: 800;
+    color: #d97706; /* amber-600 */
+    letter-spacing: 0.3px;
+}
+
+.confirm-subtitle {
+    margin-top: 6px;
+    font-size: clamp(14px, 2.2vw, 18px);
+    color: #6b7280;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.btn-yes, .btn-no {
+    border: none;
+    border-radius: 18px;
+    padding: clamp(12px, 2.6vw, 18px) clamp(20px, 4vw, 36px);
+    font-size: clamp(18px, 3vw, 28px);
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.btn-yes {
+    background: #34d399; /* emerald-400 */
+    color: white;
+    box-shadow: 0 6px 0 #059669;
+}
+
+.btn-no {
+    background: #fca5a5; /* red-300 */
+    color: #1f2937;
+    box-shadow: 0 6px 0 #ef4444;
+}
+
+.btn-yes:hover, .btn-no:hover { transform: translateY(-2px); }
+.btn-yes:active, .btn-no:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.18); }
+
+@keyframes pop-in {
+    from { transform: scale(0.96); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

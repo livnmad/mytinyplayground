@@ -1,0 +1,63 @@
+.header {
+    width: 100%;
+    height: 10vh;
+    padding: 10px 0;
+    display: flex;
+
+    /* Paint palette */
+    --c0: #ff5ea1; /* pink */
+    --c1: #5ec2ff; /* sky */
+    --c2: #ffd166; /* sunshine */
+    --c3: #73e38d; /* mint */
+    --c4: #ff9f1c; /* orange */
+    --c5: #c084fc; /* lavender */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@600&display=swap');
+
+.paint-title {
+    font-family: 'Baloo 2', 'Fredoka', system-ui, -apple-system, 'Segoe UI', Roboto, 'Comic Sans MS', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: 0.05em;
+    min-width: 20vw;
+    position: absolute;
+    margin-left: 30vw;
+}
+
+.paint-title .letter {
+    display: inline-block;
+    padding: 0 2px;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
+    text-shadow:
+        0 2px 0 rgba(0, 0, 0, 0.06),
+        0 6px 12px rgba(0, 0, 0, 0.08);
+    animation: bubble 3s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+/* Color cycling via classes */
+.paint-title .letter.c0 { color: var(--c0); }
+.paint-title .letter.c1 { color: var(--c1); }
+.paint-title .letter.c2 { color: var(--c2); }
+.paint-title .letter.c3 { color: var(--c3); }
+.paint-title .letter.c4 { color: var(--c4); }
+.paint-title .letter.c5 { color: var(--c5); }
+
+/* Slightly stagger animation for extra playfulness */
+.paint-title .letter.c0 { animation-delay: 0s; }
+.paint-title .letter.c1 { animation-delay: 0.06s; }
+.paint-title .letter.c2 { animation-delay: 0.12s; }
+.paint-title .letter.c3 { animation-delay: 0.18s; }
+.paint-title .letter.c4 { animation-delay: 0.24s; }
+.paint-title .letter.c5 { animation-delay: 0.30s; }
+
+@keyframes bubble {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-2px) scale(1.06); }
+}
+
+.space {
+    display: inline-block;
+    width: 0.25em;
+}

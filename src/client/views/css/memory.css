@@ -1,0 +1,158 @@
+/* Page-wide background for the Memory route */
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(1000px at -10% 0%, #e0f2fe 0%, transparent 70%),
+    radial-gradient(1000px at 110% 120%, #fde68a 0%, transparent 70%),
+    linear-gradient(180deg, #fff, #f8fafc);
+  background-attachment: fixed;
+}
+
+/* Single-column memory game layout */
+.memory {
+  width: 100%;
+  max-width: 90vw; /* no more than 90% of viewport width */
+  height: 100vh;   /* full viewport height */
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr; /* nav + board; score moved into nav */
+  gap: 12px;
+  padding: 15px;   /* safe padding from edges */
+  box-sizing: border-box;
+  margin: 0 auto;  /* center when narrower than viewport */
+  overflow: hidden; /* prevent vertical and horizontal scroll */
+}
+
+.score {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 0 12px;
+}
+
+.player {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.06), 0 6px 12px rgba(0,0,0,0.08);
+  padding: 10px 16px;
+}
+
+.player.active {
+  outline: 3px solid #60a5fa;
+}
+
+.player .label { font-weight: 800; color: #111827; }
+.player .count { font-size: 20px; font-weight: 900; color: #1f2937; }
+
+.board {
+  display: grid;
+  gap: 12px;
+  padding: 12px 0;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px; /* ensure proper 3D flipping */
+  /* Default card size; updated dynamically via JS to fit viewport */
+  --card-size: 80px;
+}
+
+.card {
+  position: relative;
+  width: var(--card-size);
+  height: calc(var(--card-size) * 3 / 5);
+  border-radius: 16px;
+  border: 4px solid rgba(0,0,0,0.08);
+  overflow: hidden;
+  cursor: pointer;
+  transform-style: preserve-3d;
+}
+
+.card .face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* Safari/older engines */
+  transform: translateZ(0); /* stabilize GPU compositing */
+  line-height: 1; /* keep emoji within card height */
+  transition: transform 300ms ease;
+}
+
+.card .front {
+  font-size: calc(var(--card-size) * 0.42);
+  font-weight: 900;
+  color: #111827;
+  /* Glossy kid-friendly back for the brain side */
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fff7ed 55%, #ffffff 100%),
+    repeating-linear-gradient(45deg, #f3f4f6 0 8px, #e5e7eb 8px 16px);
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.card .front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 120% at 20% 20%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.35) 35%, rgba(255,255,255,0) 60%);
+}
+
+.card .back {
+  transform: rotateY(180deg);
+  font-size: calc(var(--card-size) * 0.5);
+  color: #111827;
+  z-index: 1;
+  background: #ffffff;
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'EmojiOne', 'Twemoji', system-ui, sans-serif;
+}
+
+.card.revealed .front { transform: rotateY(180deg); }
+.card.revealed .back { transform: rotateY(0deg); }
+.card.matched { opacity: 0; pointer-events: none; transition: opacity 240ms ease; }
+
+.game-over {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.35);
+}
+
+.game-over .card {
+  background: #fff7ed;
+  border: 3px solid #fdba74;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 28px 32px;
+  width: min(560px, 90vw);
+  text-align: center;
+}
+
+.game-over .title {
+  font-size: clamp(22px, 3.2vw, 34px);
+  font-weight: 800;
+  color: #d97706;
+}
+
+.game-over .detail {
+  margin-top: 6px;
+  font-size: clamp(14px, 2.2vw, 18px);
+  color: #6b7280;
+}
+
+.game-over .actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
