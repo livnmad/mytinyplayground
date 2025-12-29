@@ -4,7 +4,8 @@ import './css/home.css';
 const Home: React.FC = () => {
   const go = (path: string) => {
     try {
-      window.location.hash = path;
+      window.history.pushState({}, '', path);
+      window.dispatchEvent(new PopStateEvent('popstate'));
     } catch {}
   };
 

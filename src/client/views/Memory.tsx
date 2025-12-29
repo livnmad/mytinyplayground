@@ -171,7 +171,7 @@ const Memory: React.FC = () => {
       <nav className="nav" aria-label="Memory Controls">
         <ul className="pill-menu">
           <li>
-            <span className="pill p3" onClick={() => { try { window.location.hash = '/home'; } catch {} }}>Home</span>
+            <span className="pill p3" onClick={() => { try { window.history.pushState({}, '', '/home'); window.dispatchEvent(new PopStateEvent('popstate')); } catch {} }}>Home</span>
           </li>
           <li>
             <span className="pill p0" onClick={() => resetGame()}>New Game</span>
@@ -225,7 +225,7 @@ const Memory: React.FC = () => {
             </div>
             <div className="actions">
               <button className="pill p0" onClick={() => resetGame()}>Play Again</button>
-              <button className="pill p3" onClick={() => { try { window.location.hash = '/home'; } catch {} }}>Home</button>
+              <button className="pill p3" onClick={() => { try { window.history.pushState({}, '', '/home'); window.dispatchEvent(new PopStateEvent('popstate')); } catch {} }}>Home</button>
             </div>
           </div>
         </div>

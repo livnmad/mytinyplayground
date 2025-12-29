@@ -9,7 +9,8 @@ const Nav: React.FC = () => (
           className="pill p3"
           onClick={() => {
             try {
-              window.location.hash = '/home';
+              window.history.pushState({}, '', '/home');
+              window.dispatchEvent(new PopStateEvent('popstate'));
             } catch {}
           }}
         >

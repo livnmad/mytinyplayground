@@ -10,17 +10,17 @@ type Route = 'home' | 'paint' | 'memory';
 const App: React.FC = () => {
   const [route, setRoute] = useState<Route>('home');
 
-  // Simple hash-based routing without extra deps
+  // Simple pathname-based routing using History API
   useEffect(() => {
     const parse = () => {
-      const h = window.location.hash.replace('#', '') || '/home';
-      if (h.startsWith('/paint')) setRoute('paint');
-      else if (h.startsWith('/memory')) setRoute('memory');
+      const p = window.location.pathname || '/home';
+      if (p.startsWith('/paint')) setRoute('paint');
+      else if (p.startsWith('/memory')) setRoute('memory');
       else setRoute('home');
     };
     parse();
-    window.addEventListener('hashchange', parse);
-    return () => window.removeEventListener('hashchange', parse);
+    window.addEventListener('popstate', parse);
+    return () => window.removeEventListener('popstate', parse);
   }, []);
 
   const content = route === 'paint' ? <Main /> : route === 'memory' ? <Memory /> : <Home />;
