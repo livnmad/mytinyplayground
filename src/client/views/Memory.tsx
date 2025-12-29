@@ -210,7 +210,7 @@ const Memory: React.FC = () => {
             }
             onClick={() => onCardClick(idx)}
           >
-            <div className="face front" aria-hidden>💩</div>
+            <div className="face front" aria-hidden>🎅</div>
             <div className="face back" aria-hidden>{card.emoji}</div>
           </button>
         ))}

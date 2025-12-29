@@ -1,7 +1,8 @@
 .nav {
     box-sizing: border-box;
-    width: 100%;
-    padding-left: 10px;
+    width: 100svw;
+    padding-left: 2px;
+    padding-right:2px;
     /* allow nav to grow when pills wrap */
 
     /* Shared palette with header */
@@ -27,7 +28,8 @@
 .pill-menu > .score-inline {
     display: flex;
     gap: clamp(8px, 1vw, 12px);
-    margin-left: auto;
+    margin-left:auto;
+    margin-right:5vw;
     flex: 0 0 auto;
 }
 
