@@ -13,7 +13,7 @@ html, body {
 /* Single-column memory game layout */
 .memory {
   width: 100%;
-  max-width: 90vw; /* no more than 90% of viewport width */
+  max-width: 95svw; /* no more than 90% of viewport width */
   height: 100svh;   /* full small viewport height */
   max-height: 100dvh;
   display: grid;
@@ -48,14 +48,15 @@ html, body {
 }
 
 .player .label { font-weight: 800; color: #111827; }
-.player .count { font-size: 20px; font-weight: 900; color: #1f2937; }
+.player .count { font-size: 20px; font-weight: 700; color: #1f2937; }
 
 .board {
   display: grid;
   gap: 12px;
-  padding: 12px 0;
+  padding: 12px auto;
   width: 100%;
   height: 100%;
+  margin: 0 auto;
   perspective: 1000px; /* ensure proper 3D flipping */
   /* Default card size; updated dynamically via JS to fit viewport */
   --card-size: 80px;
@@ -64,7 +65,7 @@ html, body {
 .card {
   position: relative;
   width: var(--card-size);
-  height: calc(var(--card-size) * 3 / 5);
+  height: calc(var(--card-size) * 3 / 4);
   border-radius: 16px;
   border: 4px solid rgba(0,0,0,0.08);
   overflow: hidden;

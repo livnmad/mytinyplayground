@@ -1,8 +1,8 @@
 .nav {
     box-sizing: border-box;
     width: 100%;
+    padding-left: 10px;
     /* allow nav to grow when pills wrap */
-    padding: 12px 10px 15px 3px;
 
     /* Shared palette with header */
     --p0: #ff5ea1;
@@ -17,9 +17,9 @@
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: clamp(8px, 1.2vw, 14px);
+    gap: 1vw;
     padding: 0;
-    margin: 0;
+    margin: 2svh 0 0 0  ;
     text-align: left;
 }
 
@@ -34,8 +34,8 @@
 .who {
     font-family: 'Baloo 2', 'Fredoka', system-ui, -apple-system, 'Segoe UI', Roboto, 'Comic Sans MS', sans-serif;
     font-weight: 600;
-    font-size: 1.5rem;
-    padding-top: 10px;;
+    font-size: 1rem;
+    padding-top: 7px;;
 }
 
 .score-badge {

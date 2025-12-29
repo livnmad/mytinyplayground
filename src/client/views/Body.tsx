@@ -336,7 +336,8 @@ const Body: React.FC = () => {
             gridTemplateColumns: 'repeat(4, 1fr)',
             gridTemplateRows: 'repeat(2, 1fr)',
             gap: 6,
-            margin: '2px 0 8px 0'
+            margin: '2px 0 8px 0',
+            border: 0,
           }}
         >
           {[4,8,12,16,20,24,28,32].map((s) => (
@@ -346,11 +347,11 @@ const Body: React.FC = () => {
               onClick={() => setBrushSize(s)}
               style={{
                 border: brushSize === s ? '2px solid #000' : '2px solid rgba(0,0,0,0.1)',
-                borderRadius: 12,
+                borderRadius: 10,
                 display: 'grid',
                 placeItems: 'center',
-                padding: 6,
-                aspectRatio: '1 / 1',
+                padding: 0,
+                height: 'clamp(36px, 5vh, 48px)', /* non-square for better fit */
                 cursor: 'pointer',
                 boxShadow: brushSize === s
                   ? '0 0 0 2px rgba(0,0,0,0.2), 0 6px 12px rgba(0,0,0,0.12)'
@@ -382,7 +383,7 @@ const Body: React.FC = () => {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gridTemplateRows: 'repeat(5, 1fr)',
+            /* let rows auto-size to avoid forcing squares */
             gap: 8,
           }}
         >
@@ -401,7 +402,7 @@ const Body: React.FC = () => {
                     display: 'grid',
                     placeItems: 'center',
                     padding: 8,
-                    aspectRatio: '1 / 1',
+                    height: 'clamp(36px, 5vh, 48px)', /* non-square */
                     cursor: 'pointer',
                     boxShadow: isErasing
                       ? '0 0 0 2px rgba(0,0,0,0.2), 0 6px 12px rgba(0,0,0,0.12)'
@@ -428,7 +429,7 @@ const Body: React.FC = () => {
                   display: 'grid',
                   placeItems: 'center',
                   padding: 8,
-                  aspectRatio: '1 / 1',
+                  height: 'clamp(36px, 5vh, 48px)', /* non-square */
                   cursor: 'pointer',
                   boxShadow: selectedColor === c && !isErasing
                     ? '0 0 0 2px rgba(0,0,0,0.2), 0 6px 12px rgba(0,0,0,0.12)'
