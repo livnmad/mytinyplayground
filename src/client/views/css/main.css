@@ -1,7 +1,6 @@
 .main-container {
-    width: 100vw;
-    height: 100svh;
-    max-height: 100dvh;
+    width: 100dvw;
+    height: 100dvh;
     display: grid;
     grid-template-rows: auto 1fr;
     overflow: hidden;
