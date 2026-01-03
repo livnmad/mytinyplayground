@@ -236,9 +236,8 @@ const Memory: React.FC = () => {
           </li>
           <li>
             <label className="pill pill-select p1" aria-label="Select Theme">
-              <span style={{ marginRight: 8 }}>Theme:</span>
               <select value={themeId} onChange={(e) => onPickTheme(e.target.value)}>
-                <option value="emoji">Emoji (default)</option>
+                <option value="emoji">Emoji</option>
                 {themes.map(t => (
                   <option key={t.id} value={t.id}>{t.name}</option>
                 ))}
