@@ -35,7 +35,7 @@ html, body {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   background: #ffffff;
   border-radius: 16px;
   border: 2px solid rgba(0,0,0,0.06);
@@ -54,10 +54,10 @@ html, body {
   display: grid;
   gap: 12px;
   padding: 12px auto;
-  width: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   margin: 0 auto;
-  perspective: 1000px; /* ensure proper 3D flipping */
+  perspective: auto; /* ensure proper 3D flipping */
   /* Default card size; updated dynamically via JS to fit viewport */
   --card-size: 80px;
 }
@@ -83,6 +83,18 @@ html, body {
   transform: translateZ(0); /* stabilize GPU compositing */
   line-height: 1; /* keep emoji within card height */
   transition: transform 300ms ease;
+  box-sizing: border-box;
+  padding: 2px; /* create small inset so images never touch border */
+}
+
+.card .face img {
+  margin-top:-10%;
+  width: 95%;
+  height: 95%;
+  object-fit: contain; /* show entire image without cropping */
+  object-position: center;
+  border-radius: inherit; /* respect card rounding */
+  display: block; /* avoid baseline gaps */
 }
 
 .card .front {

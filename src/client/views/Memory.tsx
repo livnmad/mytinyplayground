@@ -4,10 +4,13 @@ import './css/nav.css';
 
 type Card = {
   id: number;
-  emoji: string;
+  emoji: string; // for emoji mode, this is the emoji; for theme mode, this is the image URL
   matched: boolean;
   revealed: boolean;
 };
+
+type ThemeInfo = { id: string; name: string };
+type ThemeAssets = { face: string | null; cards: { code: string; url: string }[] };
 
 const EMOJIS = [
   '🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮',
@@ -25,25 +28,45 @@ const Memory: React.FC = () => {
   const [p2Pairs, setP2Pairs] = useState<number>(0);
   const [selection, setSelection] = useState<number[]>([]);
   const [seed, setSeed] = useState<number>(0);
+  const [themeId, setThemeId] = useState<string>('emoji');
+  const [themes, setThemes] = useState<ThemeInfo[]>([]);
+  const [themeAssets, setThemeAssets] = useState<ThemeAssets | null>(null);
   const boardRef = useRef<HTMLDivElement | null>(null);
 
   const pairsCount = useMemo(() => Math.floor(size / 2), [size]);
 
-  const shuffledDeck = useMemo(() => {
-    const available = [...EMOJIS];
-    const chosen: string[] = [];
-    while (chosen.length < pairsCount && available.length > 0) {
-      const idx = Math.floor(Math.random() * available.length);
-      chosen.push(available.splice(idx, 1)[0]);
+  // Build deck based on theme or emojis
+  const buildDeck = () => {
+    if (themeId === 'emoji' || !themeAssets || !themeAssets.cards || themeAssets.cards.length === 0) {
+      const available = [...EMOJIS];
+      const chosen: string[] = [];
+      while (chosen.length < pairsCount && available.length > 0) {
+        const idx = Math.floor(Math.random() * available.length);
+        chosen.push(available.splice(idx, 1)[0]);
+      }
+      const deckEmojis = chosen.flatMap((e) => [e, e]);
+      const deck: Card[] = deckEmojis.map((e, i) => ({ id: i, emoji: e, matched: false, revealed: false }));
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = deck[i]; deck[i] = deck[j]; deck[j] = tmp;
+      }
+      setCards(deck);
+      return;
     }
-    const deckEmojis = chosen.flatMap((e) => [e, e]);
-    const deck: Card[] = deckEmojis.map((e, i) => ({ id: i, emoji: e, matched: false, revealed: false }));
+    const availableImages = [...themeAssets.cards.map(c => c.url)];
+    const chosenImgs: string[] = [];
+    while (chosenImgs.length < pairsCount && availableImages.length > 0) {
+      const idx = Math.floor(Math.random() * availableImages.length);
+      chosenImgs.push(availableImages.splice(idx, 1)[0]);
+    }
+    const deckImgs = chosenImgs.flatMap((u) => [u, u]);
+    const deck: Card[] = deckImgs.map((u, i) => ({ id: i, emoji: u, matched: false, revealed: false }));
     for (let i = deck.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       const tmp = deck[i]; deck[i] = deck[j]; deck[j] = tmp;
     }
-    return deck;
-  }, [pairsCount, seed]);
+    setCards(deck);
+  };
 
   const resetGame = (newSize?: number) => {
     const s = newSize ?? size;
@@ -57,12 +80,50 @@ const Memory: React.FC = () => {
     setSelection([]);
   };
 
+  // Fetch themes on mount
   useEffect(() => {
-    setCards(shuffledDeck);
-  }, [shuffledDeck]);
+    const fetchThemes = async () => {
+      try {
+        const res = await fetch('/api/themes');
+        const data = await res.json();
+        setThemes((data?.themes ?? []).filter((t: ThemeInfo) => !!t?.id));
+      } catch {}
+    };
+    fetchThemes();
+  }, []);
+
+  // Fetch theme assets when theme changes (non-emoji)
+  useEffect(() => {
+    if (themeId === 'emoji') {
+      setThemeAssets(null);
+      return;
+    }
+    const fetchAssets = async () => {
+      try {
+        const res = await fetch(`/api/themes/${encodeURIComponent(themeId)}/images`);
+        const data = await res.json();
+        const assets: ThemeAssets = { face: data?.face ?? null, cards: data?.cards ?? [] };
+        setThemeAssets(assets);
+      } catch {
+        setThemeAssets(null);
+      }
+    };
+    fetchAssets();
+  }, [themeId]);
+
+  // Rebuild deck when size/seed/theme/assets change
+  useEffect(() => {
+    buildDeck();
+  }, [pairsCount, seed, themeId, themeAssets?.cards?.length]);
 
   const onPickSize = (s: number) => {
     resetGame(s);
+  };
+
+  const onPickTheme = (id: string) => {
+    setThemeId(id);
+    // Shuffle anew for the new theme
+    resetGame();
   };
 
   const allMatched = useMemo(() => cards.length > 0 && cards.every(c => c.matched), [cards]);
@@ -174,6 +235,17 @@ const Memory: React.FC = () => {
             <span className="pill p3" onClick={() => { try { window.history.pushState({}, '', '/home'); window.dispatchEvent(new PopStateEvent('popstate')); } catch {} }}>Home</span>
           </li>
           <li>
+            <label className="pill pill-select p1" aria-label="Select Theme">
+              <span style={{ marginRight: 8 }}>Theme:</span>
+              <select value={themeId} onChange={(e) => onPickTheme(e.target.value)}>
+                <option value="emoji">Emoji (default)</option>
+                {themes.map(t => (
+                  <option key={t.id} value={t.id}>{t.name}</option>
+                ))}
+              </select>
+            </label>
+          </li>
+          <li>
             <span className="pill p0" onClick={() => resetGame()}>New Game</span>
           </li>
           <li>
@@ -210,8 +282,20 @@ const Memory: React.FC = () => {
             }
             onClick={() => onCardClick(idx)}
           >
-            <div className="face front" aria-hidden>🎅</div>
-            <div className="face back" aria-hidden>{card.emoji}</div>
+            <div className="face front" aria-hidden>
+              {themeId !== 'emoji' && themeAssets?.face ? (
+                <img src={themeAssets.face} alt="Card back" />
+              ) : (
+                '🎅'
+              )}
+            </div>
+            <div className="face back" aria-hidden>
+              {themeId !== 'emoji' ? (
+                <img src={card.emoji} alt="Card" />
+              ) : (
+                card.emoji
+              )}
+            </div>
           </button>
         ))}
       </div>
