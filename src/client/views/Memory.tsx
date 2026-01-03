@@ -114,7 +114,7 @@ const Memory: React.FC = () => {
   // Rebuild deck when size/seed/theme/assets change
   useEffect(() => {
     buildDeck();
-  }, [pairsCount, seed, themeId, themeAssets?.cards?.length]);
+  }, [pairsCount, seed, themeId, themeAssets]);
 
   const onPickSize = (s: number) => {
     resetGame(s);
