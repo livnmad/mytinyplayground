@@ -3,6 +3,7 @@
 .home {
   overflow: hidden;
   place-items: center;
+  text-align: center;
 }
 
 .home-title {
@@ -35,7 +36,7 @@
   text-align: center;
   width: min(600px, 90vw);
   padding: 8px 16px;
-  margin:20px auto 30px auto;
+  margin:25px auto;
   border-radius: 18px;
   background: rgba(255,255,255,0.92);
   border: 2px solid rgba(17,24,39,0.06);
@@ -52,11 +53,7 @@
 }
 
 .home-grid {
-  width: min(750px, 78vw);
-/*  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(16px, 4vw, 36px);
-*/
+  place-items: center;
   text-align: center;
   margin-bottom: 10vh;
 }

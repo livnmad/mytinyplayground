@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   return (
     <div className="home">
       <div className="home-title">My Tiny Playground</div>
-      <p className="home-subtitle">Small hands, big smiles. <span className="home-subaccent">Paint, match, and play!</span></p>
+      <div className="home-subtitle">Small hands, big smiles. <span className="home-subaccent">Paint, match, and play!</span></div>
       <div className="home-grid" aria-label="Game choices">
         {/* <button className="home-card paint-card" onClick={() => go('/paint')} title="Paint">
           <div className="icon" aria-hidden>🎨</div>
