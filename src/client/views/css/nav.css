@@ -3,10 +3,10 @@
     width: 100%;
     padding: 10px;
     /* Shared palette with header */
-    --p0: #ff5ea1;
-    --p1: #5ec2ff;
-    --p2: #ffd166;
-    --p3: #73e38d;
+    --p0: #241836;
+    --p1: #241836;
+    --p2: #241836;
+    --p3: #241836;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@600&display=swap');

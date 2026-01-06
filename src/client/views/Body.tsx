@@ -314,7 +314,7 @@ const Body: React.FC = () => {
   };
 
   return (
-    <div className='body'>
+    <div className='body' style={{backgroundColor: '#000000'}}>
       <div className='pallette-area'>
         <div className="alpha-row" aria-label="Transparency control">
           <input

@@ -6,7 +6,7 @@ const Nav: React.FC = () => (
     <ul className="pill-menu">
       <li>
         <span
-          className="pill p3"
+          className="p3"
           onClick={() => {
             try {
               window.history.pushState({}, '', '/home');
