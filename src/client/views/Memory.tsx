@@ -237,7 +237,7 @@ const Memory: React.FC = () => {
           <li>
             <label className="pill pill-select p1" aria-label="Select Theme">
               <select value={themeId} onChange={(e) => onPickTheme(e.target.value)}>
-                <option value="emoji">Emoji</option>
+                <option value="emoji">Traditional</option>
                 {themes.map(t => (
                   <option key={t.id} value={t.id}>{t.name}</option>
                 ))}
@@ -285,7 +285,7 @@ const Memory: React.FC = () => {
               {themeId !== 'emoji' && themeAssets?.face ? (
                 <img src={themeAssets.face} alt="Card back" />
               ) : (
-                '🎅'
+                '❓'
               )}
             </div>
             <div className="face back" aria-hidden>
